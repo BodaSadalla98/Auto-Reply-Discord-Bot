@@ -2,7 +2,8 @@
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize 
 from nltk.sentiment.vader import  SentimentIntensityAnalyzer
-#nltk.download('vader_lexicon')
+import nltk
+nltk.download('vader_lexicon')
 analyzer = SentimentIntensityAnalyzer()
 def analyze(sentence):
     
