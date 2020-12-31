@@ -68,28 +68,54 @@ def get_wiki_image(keyword):
 
 def get_wiki_summary(keyword):
     ret = ''
-    keyword= keyword.replace(' ', '')
-    try:
-        
-        ret = wikipedia.summary(keyword,auto_suggest = True, redirect = True, chars=2000)
-        
+    try:  
+        ret = wikipedia.summary(keyword,auto_suggest = False, redirect = True, chars=2000)     
     except:
-        ret =  None
-        
-    
-    
-
+        ret =  None 
     return ret
    
+
+def get_wiki_search_title(keyword):
+   
+    url = 'https://en.wikipedia.org/w/api.php'
+    data = {
+            "action": "query",
+            "format": "json",
+            "list": "search",
+            "utf8": 1,
+            "formatversion": "2",
+            "srsearch": keyword,
+            "srlimit": "1"
+        }
+    
+    response = requests.get(url = url,  params= data)
+    json_data = response.json()
+
+    if len(json_data['query']['search']) >0 :
+        title = json_data['query']['search'][0]['title']
+    else:
+        title = None
+
+    return title
+    
+
+
+
+    summary = None
+    return summary
 
 def get_wiki(keyword):
     ret = ''
     original = keyword
+    keyword= get_wiki_search_title(keyword)
+
+    if keyword is None:
+        keyword = original.replace(' ','')
+        
     image = get_wiki_image(keyword)
-    keyword= keyword.replace(' ', '')
     summary = get_wiki_summary(keyword)
     try:
-        page = wikipedia.page(keyword, auto_suggest=True, redirect=True, preload=False)
+        page = wikipedia.page(keyword, auto_suggest=False, redirect=True, preload=False)
         if summary is None:
             summary = page.summary[:2000]
         url = page.url
@@ -104,6 +130,10 @@ def get_wiki(keyword):
 
     return title,summary,url, image
 
+# y = get_wiki('gary kelly ')
+# x= get_wiki('christian gross ')
+# z = get_wiki('in the tall grass')
+# print(x)
 #print(get_wiki('naruto anime'))
 
 #print (get_wiki_summary('naruto anime'))

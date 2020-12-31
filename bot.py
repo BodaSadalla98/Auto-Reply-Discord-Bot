@@ -53,8 +53,8 @@ async def on_message(message):
     if  message.author.bot == True:
         return
     # # enables bot in test cahnnel only 
-    if message.channel.name != os.getenv('TEST_CHANNEL'):
-        return
+    # if message.channel.name != os.getenv('TEST_CHANNEL'):
+    #     return
 
     
     # if im not online, then send this message and mention me 
