@@ -1,8 +1,10 @@
 from inspect import cleandoc
 import os
 import discord
+from discord.colour import Color
 
 from dotenv import load_dotenv
+from wikipedia.wikipedia import summary
 import  data
 import quotes
 
@@ -14,14 +16,14 @@ GUILD_ID = int(os.getenv('GUILD_ID'))
 BODA_ID = int(os.getenv('BODA_ID'))
 intents = discord.Intents.all()
 client = discord.Client(intents = intents)
-
+BOT_TEST_CHANNEL_ID=792825613819576350
 
 keywords = ['boda', 'bb']
 
 
 
 
-guil = me = None
+guid = me = None
 
 
 @client.event
@@ -31,6 +33,7 @@ async def on_ready():
     global me
     guild = client.get_guild(GUILD_ID)
     me = client.get_user(BODA_ID)
+    ch = client.get_channel(BOT_TEST_CHANNEL_ID)
     
    
 
@@ -41,6 +44,7 @@ async def on_ready():
 #         if channel.name != os.getenv('TEST_CHANNEL'):
 #             return
 #         await channel.send(f'I see you typing {user.nick}')
+        
 
 
 
@@ -49,8 +53,8 @@ async def on_message(message):
     if  message.author.bot == True:
         return
     # # enables bot in test cahnnel only 
-    # if message.channel.name != os.getenv('TEST_CHANNEL'):
-    #     return
+    if message.channel.name != os.getenv('TEST_CHANNEL'):
+        return
 
     
     # if im not online, then send this message and mention me 
@@ -68,6 +72,20 @@ async def on_message(message):
         await message.channel.send(quotes.get_dad_joke())
     elif message.content.startswith('$get quote'):
         await message.channel.send(quotes.get_quote())
+    elif message.content.startswith('$wiki'):
+        keyword = message.content.split('$wiki',1)[1]
+        title,summary,url, image = quotes.get_wiki(keyword)
+        
+        embed = discord.Embed(title=title, 
+        color = discord.Color.dark_purple(),
+        description = summary,
+        url = url)
+        if image is not None:
+           embed.set_thumbnail(url = image) 
+           
+
+        await message.channel.send(content=None, embed = embed)
+
 
 
 client.run(TOKEN)
