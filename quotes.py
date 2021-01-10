@@ -8,7 +8,11 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
+
+
+
 def get_quote():
+    ''' gets random quote '''
     response = requests.get("https://api.quotable.io/random")
     if response.ok:
         data = json.loads(response.text)
@@ -19,6 +23,7 @@ def get_quote():
 
 
 def get_dad_joke():
+    ''' gets random dad joke '''
     respone = requests.get("https://icanhazdadjoke.com/", headers={'Accept': 'application/json'})
     if respone.ok:
         respone = respone.json()
@@ -27,6 +32,7 @@ def get_dad_joke():
 
 
 def get_joke():
+    ''' gets random joke '''
     url = "https://joke3.p.rapidapi.com/v1/joke"
     querystring = {"nsfw":"true"}
     headers = {
@@ -44,13 +50,9 @@ def get_joke():
             if good > bad :
                 return data['content']
 
-def get_wiki_url(keyword):
-    keyword = keyword.replace(' ','')
-    page = wikipedia.page(keyword)
-
-    url = None
 
 def get_wiki_image(keyword):
+    ''' gets wikipedia article main image '''
     try:
         url = 'https://en.wikipedia.org/w/api.php'
         data = {
@@ -70,6 +72,7 @@ def get_wiki_image(keyword):
     return image
 
 def get_wiki_summary(keyword):
+    ''' gets wiki summary using wikipedia python lib '''
     ret = ''
     try:  
         ret = wikipedia.summary(keyword,auto_suggest = False, redirect = True, chars=2000)     
@@ -79,6 +82,9 @@ def get_wiki_summary(keyword):
    
 
 def get_wiki_search_title(keyword):
+    ''' gets wikipedia page pased on keyword. This helps when you search with a bad keyword
+        then, this will give you the most likely correct wiki page name 
+    '''
    
     url = 'https://en.wikipedia.org/w/api.php'
     data = {
@@ -100,14 +106,9 @@ def get_wiki_search_title(keyword):
         title = None
 
     return title
-    
-
-
-
-    summary = None
-    return summary
 
 def get_wiki(keyword):
+    ''' get's wiki title, summary, url, and image for the search keyword  '''
     ret = ''
     original = keyword
     keyword= get_wiki_search_title(keyword)
@@ -132,4 +133,3 @@ def get_wiki(keyword):
         title = original
 
     return title,summary,url, image
-
