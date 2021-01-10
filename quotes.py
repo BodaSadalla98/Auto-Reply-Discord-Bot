@@ -130,11 +130,3 @@ def get_wiki(keyword):
 
     return title,summary,url, image
 
-# y = get_wiki('gary kelly ')
-# x= get_wiki('christian gross ')
-# z = get_wiki('in the tall grass')
-# print(x)
-#print(get_wiki('naruto anime'))
-
-#print (get_wiki_summary('naruto anime'))
-#print(wikipedia.page('wikipedia').images[0])

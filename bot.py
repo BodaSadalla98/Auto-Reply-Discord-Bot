@@ -16,52 +16,31 @@ GUILD_ID = int(os.getenv('GUILD_ID'))
 BODA_ID = int(os.getenv('BODA_ID'))
 intents = discord.Intents.all()
 client = discord.Client(intents = intents)
-BOT_TEST_CHANNEL_ID=792825613819576350
 
-keywords = ['boda', 'bb']
-
-
-
-
-guid = me = None
-
+keywords_boda = ['boda', 'abdelrahman']
 
 @client.event
 async def on_ready():
     print(f'{client.user} has connected to Discord!')
     global guild
-    global me
     guild = client.get_guild(GUILD_ID)
-    me = client.get_user(BODA_ID)
-    ch = client.get_channel(BOT_TEST_CHANNEL_ID)
     
-   
-
-
-
-# @client.event
-# async def on_typing(channel, user, when):
-#         if channel.name != os.getenv('TEST_CHANNEL'):
-#             return
-#         await channel.send(f'I see you typing {user.nick}')
-        
-
+    
+  
 
 
 @client.event   
 async def on_message(message):
+    # doesn't listen to messgaes sent by the bot itself 
     if  message.author.bot == True:
         return
+
     # # enables bot in test cahnnel only 
     # if message.channel.name != os.getenv('TEST_CHANNEL'):
     #     return
 
     
-    # if im not online, then send this message and mention me 
-    if guild.get_member(BODA_ID).status != discord.Status.online:
-        for x in keywords:
-            if x in message.content.lower():
-                await message.channel.send(f"I'm not here right now! This is my bot responding on my behalf, I will make sure to mention boda so he gets ur message when he is back, Cheers \n  {message.author.nick} is Mentioning you {discord.utils.get(client.get_all_members(), name='Boda').mention} ")   
+    await mention_user(message,guild=guild,member_id=BODA_ID,keywords=keywords_boda)   
     
    
    
@@ -86,6 +65,22 @@ async def on_message(message):
 
         await message.channel.send(content=None, embed = embed)
 
+
+async def mention_user(message, guild,member_id, keywords):
+    """ mentions a member if he/she is not online.
+        You can customize the message as you want!
+        @param:
+            message: the message 
+            guild: guild object 
+            member_id: the member id that you want to mention
+            keywords: the keywords that refer to the member, if any of them found in the 
+                      message, the bot will mention the member
+    """
+    member = guild.get_member(member_id)
+    if member.status != discord.Status.online:
+        for x in keywords:
+            if x in message.content.lower():
+                await message.channel.send(f"I'm not here right now! This is my bot responding on my behalf, I will make sure to mention {member.name} so he gets ur message when he/she is back, Cheers! \n  {message.author.nick} is Mentioning you {member.mention} ")
 
 
 client.run(TOKEN)
