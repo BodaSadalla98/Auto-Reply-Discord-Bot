@@ -1,9 +1,12 @@
-import weakref
 import requests
 import json
 import  wikipedia
 from requests.api import get, head
 from wikipedia.wikipedia import summary
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
 
 def get_quote():
     response = requests.get("https://api.quotable.io/random")
@@ -27,13 +30,13 @@ def get_joke():
     url = "https://joke3.p.rapidapi.com/v1/joke"
     querystring = {"nsfw":"true"}
     headers = {
-        'x-rapidapi-key': "f9c6b4ead7mshb8f34698e1f16e0p123739jsn451f75309298",
+        'x-rapidapi-key': os.getenv('RAPID_API_KEY'),
         'x-rapidapi-host': "joke3.p.rapidapi.com"
         }
     good = 0
     bad = 0
     while good <= bad:
-        response = requests.request("GET", url, headers=headers)
+        response = requests.request("GET", url, headers=headers,params=querystring)
         if response.ok:
             data = response.json()
             good = data['upvotes'] 

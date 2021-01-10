@@ -15,7 +15,8 @@ first you need to create a virtual environment then run
 
 ```
 
-then, you just need to rename `.env.sample` file to `.env` and get your own **app_token** from the Discord Dev website 
+then, you just need to rename `.env.sample` file to `.env` and get your own **app_token** from the Discord Dev website.
+also to use the get joke api, get your own RapidApi key
 
 ## Usage
 This bot has a few commands at the moment:
