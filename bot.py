@@ -40,7 +40,8 @@ async def on_message(message):
     #     return
 
     
-    await mention_user(message,guild=guild,member_id=BODA_ID,keywords=keywords_boda)   
+    # mention user, if he's not online
+    #await mention_user(message,guild=guild,member_id=BODA_ID,keywords=keywords_boda)   
     
    
    
