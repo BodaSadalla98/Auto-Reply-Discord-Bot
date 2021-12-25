@@ -42,7 +42,11 @@ def get_joke():
     good = 0
     bad = 0
     while good <= bad:
-        response = requests.request("GET", url, headers=headers,params=querystring)
+        try:
+            response = requests.request("GET", url, headers=headers,params=querystring)
+        except:
+            print('ERROR')
+            break
         if response.ok:
             data = response.json()
             good = data['upvotes'] 
@@ -96,9 +100,11 @@ def get_wiki_search_title(keyword):
             "srsearch": keyword,
             "srlimit": "1"
         }
-    
-    response = requests.get(url = url,  params= data)
-    json_data = response.json()
+    try:
+        response = requests.get(url = url,  params= data)
+        json_data = response.json()
+    except:
+        json_data= ''
 
     if len(json_data['query']['search']) >0 :
         title = json_data['query']['search'][0]['title']
@@ -133,3 +139,5 @@ def get_wiki(keyword):
         title = original
 
     return title,summary,url, image
+
+

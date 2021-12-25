@@ -47,7 +47,8 @@ async def on_message(message):
    
    
     if message.content.startswith('$get joke'):
-        await message.channel.send(quotes.get_joke())
+        # await message.channel.send(quotes.get_joke())
+        await message.channel.send('Not Supported Now!')
     elif message.content.startswith('$get dad joke'):
         await message.channel.send(quotes.get_dad_joke())
     elif message.content.startswith('$get quote'):
